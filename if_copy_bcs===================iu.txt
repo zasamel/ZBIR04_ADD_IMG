@@ -1,0 +1,11 @@
+*"* components of interface IF_COPY_BCS
+interface IF_COPY_BCS
+  public .
+
+
+  methods COPY
+    returning
+      value(RESULT) type ref to OBJECT
+    raising
+      CX_BCS .
+endinterface.

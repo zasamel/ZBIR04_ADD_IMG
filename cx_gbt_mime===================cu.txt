@@ -1,0 +1,25 @@
+class CX_GBT_MIME definition
+  public
+  inheriting from CX_STATIC_CHECK
+  final
+  create public .
+
+*"* public components of class CX_GBT_MIME
+*"* do not include other source files here!!!
+public section.
+
+  constants CX_GBT_MIME type SOTR_CONC
+ value 'FFB297958BBD60469084A5B2A3431AA1' .
+  constants NO_MAIN_PART type SOTR_CONC
+ value '19A52DCEA7FAE847B5B80D1DCEE5E307' .
+  constants NO_MULTI_RELATED type SOTR_CONC
+ value '657CF27553E73341BA420180F8195120' .
+  constants NO_SUPPORTED_MAIN_PART type SOTR_CONC
+ value '562726BFED79764A9EFE812FF8C049EE' .
+  constants NO_BODY_PARTS type SOTR_CONC
+ value 'CFDEC5D02B10E04DBF5E86D6A09264F9' .
+
+  methods CONSTRUCTOR
+    importing
+      !TEXTID like TEXTID optional
+      !PREVIOUS like PREVIOUS optional .

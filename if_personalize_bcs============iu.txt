@@ -1,0 +1,30 @@
+*"* components of interface IF_PERSONALIZE_BCS
+interface IF_PERSONALIZE_BCS
+  public .
+
+
+  constants C_NO_PERSONALIZATION type CHAR1 value '0'. "#EC NOTEXT
+  constants C_FULL_PERSONALIZATION type CHAR1 value '5'. "#EC NOTEXT
+  constants C_OBJECT_PERSONALIZATION type CHAR1 value '2'. "#EC NOTEXT
+
+  methods GET_PERSONALIZE_MODE
+    returning
+      value(RESULT) type CHAR1 .
+  methods PERSONALIZE
+    importing
+      !PERSONALIZE_DATA type ref to CL_PERSONALIZE_DATA_BCS optional
+      !APPL type ref to OBJECT
+      !APPLICATION_LOG type BALLOGHNDL
+      !ARCHIVE_MODE type PPFDBCSARC
+      !ARCHIVE_PARAMETER type ARC_PARAMS optional
+      !SPOOLDATA type PPFSIBCSTP optional
+      !COMMTYPE type BCSDCOMTYP
+      !PREVIEW type CHAR1
+      !TECHNICAL_RECIPIENT type SWOTOBJID optional
+      !NO_ATTACHMENTS type CHAR1 optional
+    exporting
+      value(DOCUMENT) type ref to IF_DOCUMENT_BCS
+      !STATUS type PPFDTSTAT
+    changing
+      !ARCHIVE_INDEX type TSFDARA optional .
+endinterface.

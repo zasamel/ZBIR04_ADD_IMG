@@ -1,0 +1,44 @@
+class CX_SEND_REQ_BCS definition
+  public
+  inheriting from CX_BCS
+  create public .
+
+public section.
+*"* public components of class CX_SEND_REQ_BCS
+*"* do not include other source files here!!!
+
+  constants GC_ENCRYPT_UNAVAILABLE type SOTR_CONC value '6F43E7903B2B804C81C4CE825C952110'. "#EC NOTEXT
+  constants GC_SIGN_UNAVAILABLE type SOTR_CONC value '4473C13EA9152D43B5A875CF5D0208CF'. "#EC NOTEXT
+  constants ERROR_CURRENT_USER type SOTR_CONC value '001CC411E33E1DEDBB92DD7B9FBB0CA9'. "#EC NOTEXT
+  constants CX_SEND_REQ_BCS type SOTR_CONC value '001A4BD2B24A02DCB68E1398B3FF9EE8'. "#EC NOTEXT
+  constants DOC_NOT_EXISTS type SOTR_CONC value '001CC411E33E1DEDBB92DD7B9FBB4CA9'. "#EC NOTEXT
+  constants RECIPIENTS_NOT_EXIST type SOTR_CONC value '001CC411E33E1DEDBB92DD7B9FBB6CA9'. "#EC NOTEXT
+  constants SR_NOT_RELEASED type SOTR_CONC value '001CC411E33E1DEDBB92DD7B9FBB2CA9'. "#EC NOTEXT
+  constants ALLREADY_RELEASED type BCS_CXERR value 'ARERR_SREQ'. "#EC NOTEXT
+  constants RECIPIENT_EXISTS type BCS_CXERR value 'REX_SREQ'. "#EC NOTEXT
+  constants DOCUMENT_NOT_EXISTS type BCS_CXERR value 'DNX_SREQ'. "#EC NOTEXT
+  constants DOCUMENT_NOT_SENT type BCS_CXERR value 'DNS_SREQ'. "#EC NOTEXT
+  constants NOT_SUBMITED type BCS_CXERR value 'NS_SREQ'. "#EC NOTEXT
+  constants FOREIGN_LOCK type BCS_CXERR value 'FL_SREQ'. "#EC NOTEXT
+  constants TOO_MANY_RECEIVERS type BCS_CXERR value 'TMR_SREQ'. "#EC NOTEXT
+  constants NO_INSTANCE type BCS_CXERR value 'NI_SREQ'. "#EC NOTEXT
+  constants CANCELLED type BCS_CXERR value 'CANC_SREQ'. "#EC NOTEXT
+  constants NOT_RELEASED type BCS_CXERR value 'NOTREL_BCS'. "#EC NOTEXT
+  constants MIME_PROBLEMS type BCS_CXERR value 'MIME_BCS'. "#EC NOTEXT
+  constants NO_RECIPIENTS type BCS_CXERR value 'NO_REC_BCS'. "#EC NOTEXT
+  constants SENDER_PROBLEMS type BCS_CXERR value 'SENDER_BCS'. "#EC NOTEXT
+
+  methods CONSTRUCTOR
+    importing
+      !TEXTID like TEXTID optional
+      !PREVIOUS like PREVIOUS optional
+      !ERROR_TYPE type BCS_CXERR optional
+      !MSGID type SYMSGID optional
+      !MSGNO type SYMSGNO optional
+      !MSGTY type SYMSGTY optional
+      !MSGV1 type SYMSGV optional
+      !MSGV2 type SYMSGV optional
+      !MSGV3 type SYMSGV optional
+      !MSGV4 type SYMSGV optional
+      !OBJECT type STRING optional
+      !ERROR_TEXT type STRING optional .

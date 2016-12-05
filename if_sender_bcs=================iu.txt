@@ -1,0 +1,17 @@
+*"* components of interface IF_SENDER_BCS
+interface IF_SENDER_BCS
+  public .
+
+
+  interfaces IF_DELETE_BCS .
+
+  methods ADDRESS_TYPE
+    returning
+      value(RESULT) type SX_ADDRTYP .
+  methods ADDRESS_STRING
+    returning
+      value(RESULT) type STRING .
+  methods ADDRESS_NAME
+    returning
+      value(RESULT) type STRING .
+endinterface.

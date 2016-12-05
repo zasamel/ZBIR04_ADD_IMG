@@ -1,0 +1,22 @@
+*"* components of interface IF_DOCUMENT_DISPLAY_BCS
+interface IF_DOCUMENT_DISPLAY_BCS
+  public .
+
+
+  constants C_SUPPORTED type OS_BOOLEAN value 'X' .
+  constants C_NOT_SUPPORTED type OS_BOOLEAN value SPACE .
+
+  methods DISPLAY_INPLACE
+    importing
+      value(I_SEND_REQUEST) type ref to CL_BCS
+      value(I_CONTAINER) type ref to CL_GUI_CUSTOM_CONTAINER .
+  methods DISPLAY_OUTPLACE
+    importing
+      value(I_SEND_REQUEST) type ref to CL_BCS .
+  methods INPLACE_IS_SUPPORTED
+    returning
+      value(RESULT) type OS_BOOLEAN .
+  methods OUTPLACE_IS_SUPPORTED
+    returning
+      value(RESULT) type OS_BOOLEAN .
+endinterface.

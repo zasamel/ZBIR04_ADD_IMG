@@ -1,0 +1,13 @@
+*"* components of interface IF_RECIPIENT_BCS
+interface IF_RECIPIENT_BCS
+  public .
+
+
+  interfaces IF_DELETE_BCS .
+
+  methods RESOLVE
+    exporting
+      !E_ADDRESSES type BCSY_RESV
+    raising
+      CX_ADDRESS_BCS .
+endinterface.

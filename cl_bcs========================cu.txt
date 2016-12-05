@@ -1,0 +1,319 @@
+class CL_BCS definition
+  public
+  final
+  create private .
+
+public section.
+
+  data SEND_REQUEST type ref to CL_SEND_REQUEST_BCS read-only .
+  type-pools SO .
+  constants CP_PRIORITY_LOW type SO_SND_PRI value '9'. "#EC NOTEXT
+  constants CP_PRIORITY_NORMAL type SO_SND_PRI value '5'. "#EC NOTEXT
+  constants GC_OK type BCS_STATUS value 'I'. "#EC NOTEXT
+  constants GC_ERROR type BCS_STATUS value 'E'. "#EC NOTEXT
+  constants GC_TRANSIT type BCS_STATUS value 'T'. "#EC NOTEXT
+  constants GC_WAIT type BCS_STATUS value 'W'. "#EC NOTEXT
+  constants GC_FUTURE type BCS_STATUS value 'F'. "#EC NOTEXT
+  constants GC_RETRY type BCS_STATUS value 'R'. "#EC NOTEXT
+  constants GC_INCONS type BCS_STATUS value 'X'. "#EC NOTEXT
+  constants GC_DIRECT type BCS_STATUS value 'D'. "#EC NOTEXT
+  constants GC_UNKNOWN type BCS_STATUS value ' '. "#EC NOTEXT
+  constants GC_DELETED type BCS_STATUS value 'M'. "#EC NOTEXT
+  constants GC_ERR_INTERN type BCS_STATUS value 'A'. "#EC NOTEXT
+  constants GC_ERR_CONNECT type BCS_STATUS value 'B'. "#EC NOTEXT
+  constants GC_ERR_EXTERN type BCS_STATUS value 'C'. "#EC NOTEXT
+  constants GC_MSGTY_ERROR type SYMSGTY value 'E'. "#EC NOTEXT
+  constants GC_MSGTY_INFO type SYMSGTY value 'I'. "#EC NOTEXT
+  constants GC_MSGTY_SUCCESS type SYMSGTY value 'S'. "#EC NOTEXT
+
+  methods ADD_RECIPIENT
+    importing
+      !I_RECIPIENT type ref to IF_RECIPIENT_BCS
+      !I_EXPRESS type OS_BOOLEAN optional
+      !I_COPY type OS_BOOLEAN optional
+      !I_BLIND_COPY type OS_BOOLEAN optional
+      !I_NO_FORWARD type OS_BOOLEAN optional
+    raising
+      CX_SEND_REQ_BCS .
+  methods ASYNCHRONOUS
+    returning
+      value(RESULT) type OS_BOOLEAN
+    raising
+      CX_SEND_REQ_BCS .
+  methods CHANGED_BY
+    returning
+      value(RESULT) type SO_CHO_NAM
+    raising
+      CX_SEND_REQ_BCS .
+  methods CHANGE_DATE
+    returning
+      value(RESULT) type SO_DAT_CH
+    raising
+      CX_SEND_REQ_BCS .
+  methods CHANGE_TIME
+    returning
+      value(RESULT) type SO_TIM_CH
+    raising
+      CX_SEND_REQ_BCS .
+  methods CONSTRUCTOR
+    importing
+      value(I_SEND_REQUEST) type ref to CL_SEND_REQUEST_BCS
+    raising
+      CX_SEND_REQ_BCS .
+  methods CREATE_LINK_TO_APP
+    importing
+      value(I_APP_INSTANCE) type SIBFLPOR
+    raising
+      CX_SEND_REQ_BCS .
+  methods CREATE_LINK
+    importing
+      value(I_APPL_OBJECT) type BORIDENT
+    raising
+      CX_SEND_REQ_BCS .
+  class-methods CREATE_PERSISTENT
+    returning
+      value(RESULT) type ref to CL_BCS
+    raising
+      CX_SEND_REQ_BCS .
+  methods CREATION_DATE
+    returning
+      value(RESULT) type SO_DAT_CR
+    raising
+      CX_SEND_REQ_BCS .
+  methods CREATION_TIME
+    returning
+      value(RESULT) type SO_TIM_CR
+    raising
+      CX_SEND_REQ_BCS .
+  methods DELETE .
+  methods DEQUEUE
+    raising
+      CX_SEND_REQ_BCS .
+  methods DOCUMENT
+    returning
+      value(RESULT) type ref to IF_DOCUMENT_BCS
+    raising
+      CX_SEND_REQ_BCS .
+  methods EDIT
+    importing
+      value(I_STARTING_AT_X) type SY-TABIX optional
+      value(I_STARTING_AT_Y) type SY-TABIX optional
+      value(I_ENDING_AT_X) type SY-TABIX optional
+      value(I_ENDING_AT_Y) type SY-TABIX optional
+      value(I_HIDE_NOTE) type OS_BOOLEAN optional
+      value(I_EDIT_SUBJECT) type OS_BOOLEAN optional
+      value(I_PROCESS_BY_BADI) type BCSY_FCODE optional
+      value(I_BADI_FLTVAL) type BCSD_ATFLT optional
+    raising
+      CX_SEND_REQ_BCS
+      CX_BCS .
+  methods ENCRYPT
+    returning
+      value(RESULT) type OS_BOOLEAN
+    raising
+      CX_SEND_REQ_BCS .
+  methods ENQUEUE
+    raising
+      CX_SEND_REQ_BCS .
+  methods FORWARD
+    returning
+      value(RESULT) type ref to CL_BCS
+    raising
+      CX_SEND_REQ_BCS
+      CX_DOCUMENT_BCS .
+  class-methods GET_INSTANCE_BY_OID
+    importing
+      value(I_OID) type SYSUUID_X
+    returning
+      value(RESULT) type ref to CL_BCS
+    raising
+      CX_SEND_REQ_BCS .
+  methods IS_EDITABLE
+    returning
+      value(RESULT) type OS_BOOLEAN
+    raising
+      CX_SEND_REQ_BCS .
+  methods NOTE
+    returning
+      value(RESULT) type BCSY_TEXT
+    raising
+      CX_SEND_REQ_BCS .
+  methods OID
+    returning
+      value(RESULT) type SYSUUID_X
+    raising
+      CX_SEND_REQ_BCS .
+  methods ORIGINATOR
+    returning
+      value(RESULT) type ref to CL_SEND_REQUEST_BCS
+    raising
+      CX_SEND_REQ_BCS .
+  methods PRIORITY
+    returning
+      value(RESULT) type SO_SND_PRI
+    raising
+      CX_SEND_REQ_BCS .
+  methods RECIPIENTS
+    returning
+      value(RESULT) type BCSY_RE
+    raising
+      CX_SEND_REQ_BCS .
+  methods REPLY
+    returning
+      value(RESULT) type ref to CL_BCS
+    raising
+      CX_SEND_REQ_BCS
+      CX_DOCUMENT_BCS .
+  methods REPLY_TO
+    returning
+      value(RESULT) type ref to IF_RECIPIENT_BCS
+    raising
+      CX_SEND_REQ_BCS .
+  methods SEND
+    importing
+      !I_WITH_ERROR_SCREEN type OS_BOOLEAN default SPACE
+    returning
+      value(RESULT) type OS_BOOLEAN
+    raising
+      CX_SEND_REQ_BCS .
+  methods SEND_WITHOUT_DIALOG
+    exporting
+      value(E_RECIPIENTS_WITH_ERROR) type BCSY_RE
+      value(E_ORIG_RECS_WITH_ERROR) type BCSY_ERCP
+      value(E_SENT_TO_ALL) type OS_BOOLEAN
+    raising
+      CX_SEND_REQ_BCS .
+  methods SENDER
+    returning
+      value(RESULT) type ref to IF_SENDER_BCS
+    raising
+      CX_SEND_REQ_BCS .
+  methods SET_ASYNCHRONOUS
+    importing
+      !I_ASYNCHRONOUS type OS_BOOLEAN .
+  methods SET_DOCUMENT
+    importing
+      !I_DOCUMENT type ref to IF_DOCUMENT_BCS
+    raising
+      CX_SEND_REQ_BCS .
+  methods SET_ENCRYPT
+    importing
+      !I_ENCRYPT type BOOLEAN
+    raising
+      CX_SEND_REQ_BCS .
+  methods SET_EXPIRES_ON
+    importing
+      value(I_EXPIRES_ON) type BCS_XPIRE .
+  methods SET_NOTE
+    importing
+      !I_NOTE type BCSY_TEXT
+    raising
+      CX_SEND_REQ_BCS .
+  methods SET_OWNER_APP
+    importing
+      value(I_OWNER_APP) type BCS_APPL .
+  methods SET_PRIORITY
+    importing
+      !I_PRIORITY type SO_SND_PRI
+    raising
+      CX_SEND_REQ_BCS .
+  methods SET_REPLY_TO
+    importing
+      !I_REPLY_TO type ref to IF_RECIPIENT_BCS
+    raising
+      CX_SEND_REQ_BCS .
+  methods SET_SENDER
+    importing
+      !I_SENDER type ref to IF_SENDER_BCS
+    raising
+      CX_SEND_REQ_BCS .
+  methods SET_SIGN
+    importing
+      !I_SIGN type OS_BOOLEAN
+    raising
+      CX_SEND_REQ_BCS .
+  methods SET_SIGNATURE_WORKFLOW
+    importing
+      !I_SIGNATURE_WORKFLOW type GUID_32
+    raising
+      CX_SEND_REQ_BCS .
+  methods SET_STATUS_ATTRIBUTES
+    importing
+      value(I_REQUESTED_STATUS) type BCS_RQST
+      value(I_STATUS_MAIL) type BCS_STML default 'E'
+    raising
+      CX_SEND_REQ_BCS .
+  methods SET_STATUS_RECIPIENT
+    importing
+      value(I_STATUS_RECIPIENT) type ref to IF_RECIPIENT_BCS
+    raising
+      CX_SEND_REQ_BCS .
+  methods SET_TRACE
+    importing
+      !I_TRACE type ref to CL_TRACE_BCS .
+  class-methods SHORT_MESSAGE
+    importing
+      value(I_SUBJECT) type SOOD-OBJDES
+      value(I_TEXT) type BCSY_TEXT optional
+      value(I_RECIPIENTS) type BCSY_RE3 optional
+      value(I_SENDER) type ref to IF_SENDER_BCS optional
+      value(I_REPLYTO) type ref to IF_RECIPIENT_BCS optional
+      value(I_TEXT_FLOATING) type OS_BOOLEAN optional
+      value(I_ATTACHMENTS) type BCSY_IFDOC optional
+      value(I_APPL_OBJECT) type BORIDENT optional
+      value(I_STARTING_AT_X) type SY-TABIX optional
+      value(I_STARTING_AT_Y) type SY-TABIX optional
+      value(I_ENDING_AT_Y) type SY-TABIX optional
+      value(I_ENDING_AT_X) type SY-TABIX optional
+      value(I_ENCRYPT) type BCSD_ENCR optional
+      value(I_SIGN) type BCSD_SIGN optional
+      value(IV_VSI_PROFILE) type VSCAN_PROFILE optional
+    returning
+      value(RESULT) type ref to CL_BCS
+    raising
+      CX_SEND_REQ_BCS
+      CX_BCS .
+  methods SIGN
+    returning
+      value(RESULT) type OS_BOOLEAN
+    raising
+      CX_SEND_REQ_BCS .
+  methods SIGNATURE_WORKFLOW
+    returning
+      value(RESULT) type GUID_32 .
+  methods STATE
+    returning
+      value(RESULT) type SR_STATE .
+  methods STATUS_RECIPIENT
+    returning
+      value(RESULT) type ref to IF_RECIPIENT_BCS .
+  methods SET_SEND_IMMEDIATELY
+    importing
+      value(I_SEND_IMMEDIATELY) type OS_BOOLEAN
+    raising
+      CX_SEND_REQ_BCS .
+  methods SET_KEEP_MIME
+    importing
+      !I_KEEP_MIME type OS_BOOLEAN
+    raising
+      CX_SEND_REQ_BCS .
+  class-methods RELEASE_LINKS_TO_APP
+    importing
+      value(IT_APP_KEY_BOR) type TRL_BORID optional
+      value(IT_APP_KEY_CLASS) type SIBFLPORT optional .
+  class-methods USER_SECURITY_DEFAULTS
+    exporting
+      !EP_ENCRYPT type BCSD_ENCR
+      !EP_SIGN type BCSD_SIGN .
+  methods SET_MESSAGE_SUBJECT
+    importing
+      value(IP_SUBJECT) type STRING
+    raising
+      CX_SEND_REQ_BCS .
+  methods SET_DISCLOSURE
+    importing
+      value(I_DISCLOSURE) type BCS_DISCL .
+  methods GET_SR_STATUS
+    exporting
+      !EV_STATUS type C
+      !EV_TEXT type NATXT .

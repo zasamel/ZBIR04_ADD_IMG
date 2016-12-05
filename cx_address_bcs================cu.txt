@@ -1,0 +1,31 @@
+class CX_ADDRESS_BCS definition
+  public
+  inheriting from CX_BCS
+  final
+  create public .
+
+public section.
+*"* public components of class CX_ADDRESS_BCS
+*"* do not include other source files here!!!
+
+  constants NO_DEFAULT_COMM type SOTR_CONC value '001CC411E33E1DEDBB92D73ED0C58CA9'. "#EC NOTEXT
+  constants NO_USER_ADDRESS type SOTR_CONC value '001CC411E33E1DEDBB92D73ED0C5ACA9'. "#EC NOTEXT
+  constants NOT_FOUND type BCS_CXERR value 'NF_ADR'. "#EC NOTEXT
+  constants CANNOT_RESOLVE type BCS_CXERR value 'NO_RES_ADR'. "#EC NOTEXT
+  data USERID type SYUNAME .
+
+  methods CONSTRUCTOR
+    importing
+      !TEXTID like TEXTID optional
+      !PREVIOUS like PREVIOUS optional
+      !ERROR_TYPE type BCS_CXERR optional
+      !MSGID type SYMSGID optional
+      !MSGNO type SYMSGNO optional
+      !MSGTY type SYMSGTY optional
+      !MSGV1 type SYMSGV optional
+      !MSGV2 type SYMSGV optional
+      !MSGV3 type SYMSGV optional
+      !MSGV4 type SYMSGV optional
+      !OBJECT type STRING optional
+      !ERROR_TEXT type STRING optional
+      !USERID type SYUNAME optional .

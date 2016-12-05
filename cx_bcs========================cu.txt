@@ -1,0 +1,45 @@
+class CX_BCS definition
+  public
+  inheriting from CX_STATIC_CHECK
+  create public .
+
+public section.
+*"* public components of class CX_BCS
+*"* do not include other source files here!!!
+
+  constants OTHERS type SOTR_CONC value '001CC411E33E1DEDBB91AC75F68A6CA9'. "#EC NOTEXT
+  constants OS_ERROR type SOTR_CONC value '001CC411E33E1DEDBB91AC75F68A8CA9'. "#EC NOTEXT
+  data ERROR_TYPE type BCS_CXERR .
+  constants INTERNAL_ERROR type BCS_CXERR value 'INTERR_BCS'. "#EC NOTEXT
+  constants OS_EXCEPTION type BCS_CXERR value 'OSERR_BCS'. "#EC NOTEXT
+  constants X_ERROR type BCS_CXERR value 'XERR_BCS'. "#EC NOTEXT
+  constants PARAMETER_ERROR type BCS_CXERR value 'PARERR_BCS'. "#EC NOTEXT
+  constants INVALID_VALUE type BCS_CXERR value 'VERR_BCS'. "#EC NOTEXT
+  constants CREATION_FAILED type BCS_CXERR value 'CERR_BCS'. "#EC NOTEXT
+  constants NO_AUTHORIZATION type BCS_CXERR value 'NA_BCS'. "#EC NOTEXT
+  constants LOCKED type BCS_CXERR value 'LOCKED_BCS'. "#EC NOTEXT
+  constants CAST_ERROR type BCS_CXERR value 'CASTERR_BCS'. "#EC NOTEXT
+  data MSGID type SYMSGID .
+  data MSGNO type SYMSGNO .
+  data MSGTY type SYMSGTY .
+  data MSGV1 type SYMSGV .
+  data MSGV2 type SYMSGV .
+  data MSGV3 type SYMSGV .
+  data MSGV4 type SYMSGV .
+  data OBJECT type STRING .
+  data ERROR_TEXT type STRING .
+
+  methods CONSTRUCTOR
+    importing
+      !TEXTID like TEXTID optional
+      !PREVIOUS like PREVIOUS optional
+      !ERROR_TYPE type BCS_CXERR optional
+      !MSGID type SYMSGID optional
+      !MSGNO type SYMSGNO optional
+      !MSGTY type SYMSGTY optional
+      !MSGV1 type SYMSGV optional
+      !MSGV2 type SYMSGV optional
+      !MSGV3 type SYMSGV optional
+      !MSGV4 type SYMSGV optional
+      !OBJECT type STRING optional
+      !ERROR_TEXT type STRING optional .

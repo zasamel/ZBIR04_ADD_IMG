@@ -1,0 +1,43 @@
+*"* components of interface IF_DOCUMENT_BCS
+interface IF_DOCUMENT_BCS
+  public .
+
+
+  interfaces IF_DELETE_BCS .
+
+  methods GET_SUBJECT
+    returning
+      value(RE_SUBJECT) type CHAR50 .
+  methods GET_BODY_PART_COUNT
+    returning
+      value(RE_COUNT) type INT4 .
+  type-pools ABAP .
+  methods GET_BODY_PART_CONTENT
+    importing
+      !IM_PART type INT4
+      !IV_PREFER_TEXT type ABAP_BOOL optional
+    returning
+      value(RE_CONTENT) type BCSS_DBPC
+    raising
+      CX_DOCUMENT_BCS .
+  methods AS_MIME_DOCUMENT
+    importing
+      !IM_MIME_GENERATOR type ref to CL_SX_MIME_SINGLEPART
+    returning
+      value(RE_MIME) type MIME_DATA
+    raising
+      CX_DOCUMENT_BCS .
+  methods GET_SENSITIVITY
+    returning
+      value(RE_SENSITIVITY) type SO_OBJ_SNS .
+  methods GET_IMPORTANCE
+    returning
+      value(RE_IMPORTANCE) type SO_OBJ_PRI .
+  methods GET_BODY_PART_ATTRIBUTES
+    importing
+      !IM_PART type INT4
+    returning
+      value(RE_ATTRIBUTES) type BCSS_DBPA
+    raising
+      CX_DOCUMENT_BCS .
+endinterface.

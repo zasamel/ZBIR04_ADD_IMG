@@ -1,0 +1,155 @@
+*"* components of interface IF_MR_API
+interface IF_MR_API
+  public .
+
+
+  constants C_VIRUS_PROFILE type VSCAN_PROFILE value '/SMIM_API/PUT'. "#EC NOTEXT
+
+  class-methods GET_API
+    importing
+      !I_PREFIX type CSEQUENCE default SPACE
+    returning
+      value(R_MR_API) type ref to IF_MR_API .
+  methods GET
+    importing
+      !I_URL type CSEQUENCE
+      !I_CHECK_AUTHORITY type BOOLE_D default 'X'
+    exporting
+      !E_IS_FOLDER type BOOLE_D
+      !E_CONTENT type XSTRING
+      !E_CONTENT_LAST_CHANGED type SMIMPHIO-CHNG_TIME
+      !E_MIME_TYPE type CSEQUENCE
+      !E_LOIO type SKWF_IO
+    changing
+      !C_LANGUAGE type LANGU optional
+    exceptions
+      PARAMETER_MISSING
+      ERROR_OCCURED
+      NOT_FOUND
+      PERMISSION_FAILURE .
+  methods CREATE_FOLDER
+    importing
+      !I_URL type CSEQUENCE
+      !I_LANGUAGE type LANGU default SY-LANGU
+      !I_DESCRIPTION type CSEQUENCE optional
+      !I_CHECK_AUTHORITY type BOOLE_D default 'X'
+      !I_SUPPRESS_PACKAGE_DIALOG type BOOLE_D default SPACE
+      !I_DEV_PACKAGE type DEVCLASS optional
+      !I_CORR_NUMBER type TRKORR optional
+      !I_GENFLAG type BOOLE_D default ABAP_FALSE
+      !I_FOLDER_LOIO type SKWF_IO optional
+      !I_FOLDER_ROLE type MR_FROLE default SPACE
+      !I_NEW_FOLDER_ROLE_DESCRIPTION type DDTEXT default SPACE
+      !I_SUPPRESS_DIALOGS type BOOLE_D optional
+    exporting
+      !E_FOLDER_IO type SKWF_IO
+    exceptions
+      PARAMETER_MISSING
+      ERROR_OCCURED
+      CANCELLED
+      PERMISSION_FAILURE
+      FOLDER_EXISTS .
+  methods PUT
+    importing
+      !I_URL type CSEQUENCE
+      !I_CONTENT type XSTRING
+      !I_LANGUAGE type LANGU default SY-LANGU
+      !I_DESCRIPTION type CSEQUENCE optional
+      !I_CHECK_AUTHORITY type BOOLE_D default 'X'
+      !I_SUPPRESS_PACKAGE_DIALOG type BOOLE_D default SPACE
+      !I_DEV_PACKAGE type DEVCLASS optional
+      !I_CORR_NUMBER type TRKORR optional
+      !I_GENFLAG type BOOLE_D default ABAP_FALSE
+      !I_NEW_LOIO type SKWF_IO optional
+      !I_SUPPRESS_DIALOGS type BOOLE_D optional
+      !I_VIRUS_PROFILE type VSCAN_PROFILE default C_VIRUS_PROFILE
+    exceptions
+      PARAMETER_MISSING
+      ERROR_OCCURED
+      CANCELLED
+      PERMISSION_FAILURE
+      DATA_INCONSISTENCY
+      NEW_LOIO_ALREADY_EXISTS
+      IS_FOLDER .
+  methods DELETE
+    importing
+      !I_URL type CSEQUENCE
+      !I_DELETE_CHILDREN type BOOLE_D default ''
+      !I_CHECK_AUTHORITY type BOOLE_D default 'X'
+      !I_CORR_NUMBER type TRKORR optional
+      !I_SUPPRESS_DIALOGS type BOOLE_D optional
+    exceptions
+      PARAMETER_MISSING
+      ERROR_OCCURED
+      CANCELLED
+      PERMISSION_FAILURE
+      NOT_FOUND .
+  methods FILE_LIST
+    importing
+      !I_URL type CSEQUENCE
+      !I_RECURSIVE_CALL type BOOLE_D default ''
+      !I_CHECK_AUTHORITY type BOOLE_D default 'X'
+    exporting
+      !E_FILES type STRING_TABLE
+    exceptions
+      PARAMETER_MISSING
+      ERROR_OCCURED
+      NOT_FOUND
+      PERMISSION_FAILURE
+      IS_NOT_FOLDER .
+  methods PROPERTIES
+    importing
+      !I_URL type CSEQUENCE
+      !I_CHECK_AUTHORITY type BOOLE_D default 'X'
+    exporting
+      !E_IS_FOLDER type BOOLE_D
+      !E_MIME_TYPE type CSEQUENCE
+      !E_NAME type STRING
+      !E_SIZE type I
+      !E_BIN_DATA type BOOLE_D
+      !E_LOIO type SKWF_IO
+      !E_PHIO type SKWF_IO
+      !E_LANGUAGE type LANGU
+      !E_PHIO_LAST_CHANGED type SMIMPHIO-CHNG_TIME
+    exceptions
+      PARAMETER_MISSING
+      ERROR_OCCURED
+      NOT_FOUND
+      PERMISSION_FAILURE .
+  methods GET_IO_FOR_URL
+    importing
+      !I_URL type CSEQUENCE
+    exporting
+      !E_IS_FOLDER type BOOLE_D
+      !E_LOIO type SKWF_IO
+    exceptions
+      PARAMETER_MISSING
+      ERROR_OCCURED
+      NOT_FOUND .
+  methods GET_BY_IO
+    importing
+      !I_LOIO type SDOK_DOCID
+      !I_CHECK_AUTHORITY type BOOLE_D default 'X'
+    exporting
+      !E_IS_FOLDER type BOOLE_D
+      !E_CONTENT type XSTRING
+      !E_CONTENT_LAST_CHANGED type SMIMPHIO-CHNG_TIME
+      !E_MIME_TYPE type CSEQUENCE
+    changing
+      !C_LANGUAGE type LANGU optional
+    exceptions
+      PARAMETER_MISSING
+      ERROR_OCCURED
+      NOT_FOUND
+      PERMISSION_FAILURE .
+  methods GET_URL_FOR_IO
+    importing
+      !I_LOIO type SDOK_DOCID
+    exporting
+      !E_URL type STRING
+      !E_IS_FOLDER type BOOLE_D
+    exceptions
+      PARAMETER_MISSING
+      ERROR_OCCURED
+      NOT_FOUND .
+endinterface.

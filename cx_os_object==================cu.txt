@@ -1,0 +1,18 @@
+class CX_OS_OBJECT definition
+  public
+  inheriting from CX_OS_ERROR
+  create public .
+
+*"* public components of class CX_OS_OBJECT
+*"* do not include other source files here!!!
+public section.
+
+  constants CX_OS_OBJECT type SOTR_CONC
+ value 'C855C904F67CD41181DA00A0C99E0BAF' .
+  data OBJECT type ref to OBJECT .
+
+  methods CONSTRUCTOR
+    importing
+      !TEXTID like TEXTID optional
+      !PREVIOUS like PREVIOUS optional
+      value(OBJECT) type ref to OBJECT optional .

@@ -1,0 +1,226 @@
+*&---------------------------------------------------------------------*
+*&  Include           ZBIR04_ADD_IMG_FORM01
+*&---------------------------------------------------------------------*
+
+
+
+
+
+
+form obtener_img.
+
+
+DATA: o_mr_api         TYPE REF TO if_mr_api.
+
+  DATA is_folder TYPE boole_d.
+  DATA l_current TYPE xstring.
+  DATA l_loio TYPE skwf_io.
+
+  IF o_mr_api IS INITIAL.
+
+    o_mr_api = cl_mime_repository_api=>if_mr_api~get_api( ).
+
+  ENDIF.
+
+      CALL METHOD o_mr_api->get
+    EXPORTING
+*      i_url              = '/SAP/PUBLIC/birchman_corp_logo_RGB_large.jpg'
+      i_url              = '/SAP/PUBLIC/logo.png'
+    IMPORTING
+      e_is_folder        = is_folder
+      e_content          = l_current
+      e_loio             = l_loio
+    EXCEPTIONS
+      parameter_missing = 1
+      error_occured      = 2
+      not_found          = 3
+      permission_failure = 4
+      OTHERS             = 5.
+*Modo 1
+
+*CALL FUNCTION 'SSFC_BASE64_ENCODE'
+*    EXPORTING
+*      bindata                        = l_current
+*   IMPORTING
+*     b64data                        = gv_b64data.
+*  IF sy-subrc <> 0.
+*
+*  ENDIF.
+
+*fin modo 1
+
+*Modo 2
+*Convert XSTRING to ITAB
+
+CLEAR : gt_solix, gs_solix, gv_img1_size.
+
+WHILE l_current IS NOT INITIAL.
+  gs_solix-line = l_current.
+  APPEND gs_solix TO gt_solix.
+  SHIFT l_current LEFT BY 255 PLACES IN BYTE MODE.
+ENDWHILE.
+
+*Findthe Size of the image
+DESCRIBE TABLE gt_solix LINES gv_img1_size.
+
+gv_img1_size = gv_img1_size * 255.
+*fin modo 2
+
+endform. "obtener_img
+
+FORM generar_mail.
+
+ perform obtener_img.
+
+  DATA:lv_length TYPE i,
+       lv_len2 TYPE i,
+       lv_len3 TYPE i,
+       temp1 TYPE i,
+       temp2 TYPE i.
+
+
+  CLEAR WA_CONTENTS.
+  WA_CONTENTS-LINE = '<html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-16BE"></head><body>'.
+  APPEND WA_CONTENTS TO it_server.
+
+  CLEAR WA_CONTENTS.
+  WA_CONTENTS-LINE = '<table border="0"><tr><td rowspan="2">'.
+  APPEND WA_CONTENTS TO it_server.
+
+*modo 2
+
+if gt_solix is not INITIAL.
+
+  CLEAR WA_CONTENTS.
+*   WA_CONTENTS-LINE = '<img src="cid:birchman_corp_logo_RGB_large.jpg'.
+   WA_CONTENTS-LINE = '<img src="cid:logo.png'.
+   APPEND WA_CONTENTS TO it_server.
+
+
+*fin modo 2
+
+*modo 1
+
+*  if gv_b64data is not INITIAL.
+*
+*
+*   CLEAR WA_CONTENTS.
+*   WA_CONTENTS-LINE = '<img src="data:image/gif;base64,'.
+*   APPEND WA_CONTENTS TO it_server.
+*
+*  CLEAR wa_contents.
+*
+*  lv_length = strlen( gv_b64data ).
+*  lv_len2 = lv_length / 255.
+*
+*  wa_contents-LINE = gv_b64data.
+*  APPEND wa_contents TO it_server.
+*
+*  CLEAR wa_contents.
+*
+*  DO lv_len2 TIMES.
+*    lv_len3 = 255 * sy-index.
+*
+*    IF lv_len3 <= lv_length.
+*      wa_contents = gv_b64data+lv_len3.
+*      IF wa_contents IS NOT INITIAL.
+*        APPEND wa_contents TO it_server.
+*        CLEAR WA_CONTENTS.
+*      ELSE.
+*        EXIT.
+*      ENDIF.
+*    ELSEif lv_len3 > lv_length.
+*        EXIT.
+*    ENDIF.
+*  ENDDO.
+
+
+*fin modo 1
+
+  else.
+
+   CLEAR WA_CONTENTS.
+   WA_CONTENTS-LINE = '<img src="https://www.google.com/a/birchmangroup.com/images/logo.gif?alpha=1&amp;service=google_default" '.
+   APPEND WA_CONTENTS TO it_server.
+
+
+
+ENDIF.
+
+  CLEAR wa_contents.
+*  wa_contents-line = '"alt="Logo" height=75px width=150px /></td>'.
+  wa_contents-line = '"alt="Logo" height=60px width=144px /></td>'.
+  APPEND WA_CONTENTS TO it_server.
+
+
+  CLEAR wa_contents.
+  wa_contents-line =  '<td align="center" height=30px width=100px>texto1</td></tr>'.
+  APPEND wa_contents TO it_server.
+
+  CLEAR wa_contents.
+  wa_contents-line = '<tr><td align="center" height=30px width=100px>texto2</td></tr>'.
+  APPEND wa_contents TO it_server.
+
+
+  CLEAR WA_CONTENTS.
+  WA_CONTENTS-LINE = '</table></body></html>'.
+  APPEND WA_CONTENTS TO it_server.
+
+endform.
+
+
+
+
+
+
+FORM enviar_mail2 .
+
+
+  DATA: it_cuerpo          TYPE soli_tab.
+  DATA: document           TYPE REF TO cl_document_bcs.
+  DATA: sender             TYPE REF TO cl_sapuser_bcs.
+  DATA: recipient          TYPE REF TO if_recipient_bcs.
+  DATA: bcs_exception      TYPE REF TO cx_bcs.
+  DATA: send_request       TYPE REF TO cl_bcs.
+  DATA: i_sender           TYPE REF TO if_sender_bcs.
+  DATA: wa_subject         TYPE so_obj_des,
+        gv_email         TYPE adr6-smtp_addr.
+
+  it_cuerpo[] = it_server[].
+*  CONCATENATE 'Detailed Status of ' p_name ' systems at '  sy-uzeit(2) ':' sy-uzeit+2(2)  ' CET' INTO wa_subject RESPECTING BLANKS .
+  TRY.
+      send_request = cl_bcs=>create_persistent( ).
+
+      document = cl_document_bcs=>create_document(
+            i_type     = 'HTM'
+            i_text     = it_cuerpo
+            i_subject  = wa_subject ).                      "#EC NOTEXT
+
+*modo 2
+if gt_solix is not INITIAL.
+
+document->add_attachment(
+  EXPORTING
+*    i_attachment_type     =  'jpg'                  " Document Class for Attachment
+    i_attachment_type     =  'png'                  " Document Class for Attachment
+*    i_attachment_subject  =  'birchman_corp_logo_RGB_large'                " Attachment Title
+    i_attachment_subject  =  'logo'                " Attachment Title
+    i_attachment_size     =  gv_img1_size           " Size of Document Content
+    i_att_content_hex     =  gt_solix  " Content (Binary)
+).
+endif.
+
+*fin modo 2
+
+      send_request->set_document( document ).
+
+      gv_email = 'daniel.martinez@birchmangroup.com'.
+      recipient = cl_cam_address_bcs=>create_internet_address( gv_email ).
+
+      send_request->add_recipient( i_recipient = recipient i_express   = 'X').
+      CALL METHOD send_request->send( ).
+
+    CATCH cx_bcs INTO bcs_exception.
+       MESSAGE i865(so) WITH bcs_exception->error_type.
+  ENDTRY.
+ENDFORM.                    " ENVIAR_MAIL2

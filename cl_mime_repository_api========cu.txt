@@ -1,0 +1,52 @@
+class CL_MIME_REPOSITORY_API definition
+  public
+  final
+  create private .
+
+public section.
+*"* public components of class CL_MIME_REPOSITORY_API
+*"* do not include other source files here!!!
+  type-pools ABAP .
+  type-pools SCTSC .
+  type-pools SKWFC .
+  type-pools TRWBO .
+  type-pools WBMR .
+
+  interfaces IF_MR_API .
+
+  aliases GET_API
+    for IF_MR_API~GET_API .
+
+  methods CREATE_ROOT_FOLDER
+    importing
+      !I_ROOT_NAME type CSEQUENCE
+      !I_LANGUAGE type LANGU default SY-LANGU
+      !I_DESCRIPTION type CSEQUENCE optional
+      !I_CHECK_AUTHORITY type BOOLE_D default 'X'
+      !I_SUPPRESS_PACKAGE_DIALOG type BOOLE_D default SPACE
+      !I_DEV_PACKAGE type DEVCLASS optional
+      !I_CORR_NUMBER type TRKORR optional
+      value(I_FOLDER_ROLE) type MR_FROLE default 'CUSTOMER'
+      !I_NEW_FOLDER_ROLE_DESCRIPTION type DDTEXT default SPACE
+      !I_SUPPRESS_DIALOGS type BOOLE_D optional
+      !I_GENFLAG type BOOLE_D optional
+    exporting
+      !E_FOLDER_IO type SKWF_IO
+    exceptions
+      PARAMETER_MISSING
+      ERROR_OCCURED
+      CANCELLED
+      PERMISSION_FAILURE
+      FOLDER_EXISTS .
+  class-methods GET_VALID_URL
+    importing
+      !I_API_PREFIX type SDOK_DESCR default SPACE
+    changing
+      !C_URL type CSEQUENCE .
+  class-methods SELECT_MIME_ROOT
+    importing
+      !I_ROOT_GUID type SDOK_DOCID
+    exporting
+      !E_ROOT_WA type SKWF_ROOT
+    exceptions
+      NOT_FOUND .

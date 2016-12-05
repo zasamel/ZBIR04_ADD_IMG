@@ -1,0 +1,17 @@
+*&---------------------------------------------------------------------*
+*& Report  ZBIR04_ADD_IMG
+*&
+*&---------------------------------------------------------------------*
+*&
+*&
+*&---------------------------------------------------------------------*
+
+REPORT ZBIR04_ADD_IMG.
+
+Include zbir04_add_img_top01.
+INCLUDE zbir04_add_img_form01.
+
+START-OF-SELECTION.
+
+PERFORM GENERAR_MAIL.
+PERFORM ENVIAR_MAIL2.

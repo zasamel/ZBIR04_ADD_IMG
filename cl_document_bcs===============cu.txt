@@ -1,0 +1,177 @@
+class CL_DOCUMENT_BCS definition
+  public
+  final
+  create public
+
+  global friends CB_DOCUMENT_BCS
+                 CL_BCS
+                 CL_BCS_PPF
+                 CL_COVER_DOCUMENT_BCS
+                 CL_COVER_DOC_PERSONALIZE_BCS
+                 CL_DOCUMENT_MANAGER_BCS_PPF
+                 CL_PDF_FORM_BCS
+                 CL_SMARTFORM_BCS .
+
+public section.
+  type-pools BCSEV .
+  class CA_DOCUMENT_BCS definition load .
+
+  interfaces IF_COPY_BCS .
+  interfaces IF_DELETE_BCS .
+  interfaces IF_DOCUMENT_BCS .
+  interfaces IF_DOCUMENT_DISPLAY_BCS .
+  interfaces IF_OS_STATE .
+  interfaces IF_PERSONALIZE_BCS .
+
+  constants CP_SUBJECT_SIGN type STRING value '$&BCS_SUBJECT='. "#EC NOTEXT
+  constants CP_CID type STRING value '&BCS_CID='. "#EC NOTEXT
+
+  methods GETU_OBJHEAD
+    importing
+      !IM_PART type INT4
+    returning
+      value(RT_HEADER) type SOLI_TAB .
+  type-pools SO .
+  class-methods CREATE_DOCUMENT
+    importing
+      value(I_TYPE) type SO_OBJ_TP
+      value(I_SUBJECT) type SO_OBJ_DES
+      value(I_LENGTH) type SO_OBJ_LEN optional
+      value(I_LANGUAGE) type SO_OBJ_LA default SPACE
+      value(I_IMPORTANCE) type BCS_DOCIMP optional
+      value(I_SENSITIVITY) type SO_OBJ_SNS optional
+      !I_TEXT type SOLI_TAB optional
+      !I_HEX type SOLIX_TAB optional
+      !I_HEADER type SOLI_TAB optional
+      value(I_SENDER) type ref to CL_CAM_ADDRESS_BCS optional
+      value(IV_VSI_PROFILE) type VSCAN_PROFILE optional
+    returning
+      value(RESULT) type ref to CL_DOCUMENT_BCS
+    raising
+      CX_DOCUMENT_BCS .
+  class-methods CREATE_FROM_MIME
+    importing
+      value(IO_MIME) type ref to CL_BCOM_MIME
+      value(IP_TYPE) type MIME_TYPE
+      value(IP_SUBJECT) type SO_OBJ_DES
+      value(IO_SENDER) type ref to CL_CAM_ADDRESS_BCS optional
+      value(IP_IMPORTANCE) type BCS_DOCIMP optional
+      value(IP_SENSITIVITY) type SO_OBJ_SNS optional
+    exporting
+      !ET_DOCTYPES type BCSY_SODOC
+      value(EP_DOC) type ref to CL_DOCUMENT_BCS
+    raising
+      CX_DOCUMENT_BCS
+      CX_BCOM_MIME .
+  class-methods CREATE_FROM_MULTIRELATED
+    importing
+      value(I_SUBJECT) type SO_OBJ_DES
+      value(I_LANGUAGE) type SO_OBJ_LA default SPACE
+      value(I_IMPORTANCE) type BCS_DOCIMP optional
+      value(I_SENSITIVITY) type SO_OBJ_SNS optional
+      !I_MULTIREL_SERVICE type ref to CL_GBT_MULTIRELATED_SERVICE
+      value(IV_VSI_PROFILE) type VSCAN_PROFILE optional
+    returning
+      value(RESULT) type ref to CL_DOCUMENT_BCS
+    raising
+      CX_DOCUMENT_BCS
+      CX_BCOM_MIME
+      CX_GBT_MIME .
+  class-methods CREATE_FROM_TEXT
+    importing
+      !I_TEXT type BCSY_TEXT
+      value(I_DOCUMENTTYPE) type SOOD-OBJTP default 'RAW'
+      value(I_SUBJECT) type SOOD-OBJDES default SPACE
+      value(I_IMPORTANCE) type SOOD-OBJPRI default '0'
+      value(I_SENSITIVITY) type SOOD-OBJSNS default 'F'
+    returning
+      value(RESULT) type ref to CL_DOCUMENT_BCS
+    raising
+      CX_DOCUMENT_BCS .
+  class-methods GETU_INSTANCE_BY_KEY
+    importing
+      !I_SOOD_KEY type SOODK
+      value(I_NO_ENQUEUE) type OS_BOOLEAN optional
+    returning
+      value(RESULT) type ref to CL_DOCUMENT_BCS
+    raising
+      CX_DOCUMENT_BCS .
+  methods ADD_ATTACHMENT
+    importing
+      value(I_ATTACHMENT_TYPE) type SOODK-OBJTP
+      value(I_ATTACHMENT_SUBJECT) type SOOD-OBJDES
+      value(I_ATTACHMENT_SIZE) type SOOD-OBJLEN optional
+      value(I_ATTACHMENT_LANGUAGE) type SOOD-OBJLA default SPACE
+      value(I_ATT_CONTENT_TEXT) type SOLI_TAB optional
+      value(I_ATT_CONTENT_HEX) type SOLIX_TAB optional
+      value(I_ATTACHMENT_HEADER) type SOLI_TAB optional
+      value(IV_VSI_PROFILE) type VSCAN_PROFILE optional
+    raising
+      CX_DOCUMENT_BCS .
+  methods GETU_FILENAME
+    returning
+      value(RV_FILENAME) type STRING .
+  methods ADD_DOCUMENT_AS_ATTACHMENT
+    importing
+      !IM_DOCUMENT type ref to IF_DOCUMENT_BCS
+    raising
+      CX_DOCUMENT_BCS .
+  methods GET_DOCNO
+    returning
+      value(RESULT) type SO_OBJ_NO
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  methods GET_DOCTP
+    returning
+      value(RESULT) type SO_OBJ_TP
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  methods GET_DOCYR
+    returning
+      value(RESULT) type SO_OBJ_YR
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  methods GET_IMPORTANCE
+    returning
+      value(RESULT) type SO_OBJ_PRI
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  methods GET_SENSITIVITY
+    returning
+      value(RESULT) type SO_OBJ_SNS
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  methods GET_SUBJECT
+    returning
+      value(RESULT) type SO_OBJ_DES
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  methods SET_IMPORTANCE
+    importing
+      !I_IMPORTANCE type SO_OBJ_PRI
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  methods SET_SENSITIVITY
+    importing
+      !I_SENSITIVITY type SO_OBJ_SNS
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  methods SET_SUBJECT
+    importing
+      !I_SUBJECT type SO_OBJ_DES
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  methods GETU_SUBJECT_LONG
+    returning
+      value(RP_SUBJECT_LONG) type STRING .
+  class-methods XSTRING_TO_SOLIX
+    importing
+      !IP_XSTRING type XSTRING
+    returning
+      value(RT_SOLIX) type SOLIX_TAB .
+  class-methods STRING_TO_SOLI
+    importing
+      !IP_STRING type STRING
+    returning
+      value(RT_SOLI) type SOLI_TAB .
+  class CL_OS_SYSTEM definition load .

@@ -1,0 +1,85 @@
+*"* components of interface IF_RECIPIENT_DIALOG_BCS
+interface IF_RECIPIENT_DIALOG_BCS
+  public .
+
+
+  interfaces IF_RECIPIENT_BCS .
+
+  aliases RESOLVE
+    for IF_RECIPIENT_BCS~RESOLVE .
+
+  type-pools SO .
+  class-methods GET_GROUP_TYPE
+    returning
+      value(RESULT) type SO_OBJ_TP .
+  class-methods GET_SORT_GROUP
+    returning
+      value(RESULT) type SO_SORTCLA .
+  class-methods NEW
+    returning
+      value(RECIPIENT) type ref to IF_RECIPIENT_DIALOG_BCS .
+  class-methods CHECK_RECIPIENT_NAME
+    importing
+      value(RECIPIENT_NAME) type SO_NAME default '*'
+    returning
+      value(RECIPIENT) type ref to IF_RECIPIENT_DIALOG_BCS .
+  class-methods CHECK_SEND_AUTHORITY
+    importing
+      value(USER) type SYUNAME default SY-UNAME
+    returning
+      value(RETURN) type SYSUBRC .
+  class-methods GET_REF_BY_OID
+    importing
+      !OID type OS_GUID
+    returning
+      value(RESULT) type ref to IF_RECIPIENT_DIALOG_BCS .
+  class-methods GET_RECIPIENT_TYPE_NAME
+    importing
+      value(LANGU) type SYLANGU default SY-LANGU
+    returning
+      value(NAME) type SO_ESC_DES
+    exceptions
+      LANGUAGE_NO_SUPPORT .
+  methods COMPARE
+    importing
+      !OTHER_RECIPIENT type ref to IF_RECIPIENT_DIALOG_BCS
+    returning
+      value(RESULT) type SYSUBRC .
+  methods GET_RECIPIENT_NAME
+    importing
+      value(LANGU) type SYLANGU default SY-LANGU
+    returning
+      value(RECIPIENT_NAME) type SO_NAME .
+  methods CHECK_RECIPIENT_AUTHORITY
+    importing
+      !USER type SYUNAME default SY-UNAME
+    returning
+      value(RETURN) type SYSUBRC .
+  methods GET_RECIPIENT_SORTFIELD
+    returning
+      value(RECIPIENT_SORTFIELD) type SO_SORTNAM .
+  methods GET_DEFAULT_ATTRIBUTES
+    returning
+      value(DEFAULT_ATTRIBUTES) type SOOS2 .
+  methods GET_GROUP_NAME
+    returning
+      value(GROUP_NAME) type SO_DLI_NAM .
+  methods DISPLAY .
+  methods EDIT .
+  methods GET_OID_BY_REF
+    returning
+      value(OID) type OS_GUID .
+  methods GET_ADDRESS_DATA
+    returning
+      value(RESULT) type SOCV_DATA .
+  methods IS_PERSONALIZABLE
+    returning
+      value(RESULT) type SO_FLAG .
+  methods GET_RECIPIENT_TYPE_NAME_DETAIL
+    importing
+      value(LANGU) type SYLANGU default SY-LANGU
+    returning
+      value(NAME) type SO_ESC_DES
+    exceptions
+      LANGUAGE_NO_SUPPORT .
+endinterface.

@@ -1,0 +1,14 @@
+*"* components of interface IF_DELETE_BCS
+interface IF_DELETE_BCS
+  public .
+
+
+  class-methods MASS_DELETE
+    importing
+      !I_DEL_INSTANCES type BCSY_GUID
+    exporting
+      !E_NOT_DELETED type BCSY_GUID .
+  methods DELETE
+    raising
+      CX_BCS .
+endinterface.

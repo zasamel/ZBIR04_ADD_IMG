@@ -1,0 +1,156 @@
+class CL_CAM_ADDRESS_BCS definition
+  public
+  final
+  create public
+
+  global friends CB_CAM_ADDRESS_BCS .
+
+*"* public components of class CL_CAM_ADDRESS_BCS
+*"* do not include other source files here!!!
+public section.
+
+  interfaces IF_COPY_BCS .
+  interfaces IF_DELETE_BCS .
+  interfaces IF_OS_STATE .
+  interfaces IF_RECIPIENT_BCS .
+  interfaces IF_RECIPIENT_DIALOG_BCS .
+  interfaces IF_SENDER_BCS .
+
+  constants C_ADDRESS_TYPE_X400 type SX_ADDRTYP value 'X40'. "#EC NOTEXT
+  constants C_ADDRESS_TYPE_SMTP type SX_ADDRTYP value 'INT'. "#EC NOTEXT
+  constants C_ADDRESS_TYPE_RML type SX_ADDRTYP value 'RML'. "#EC NOTEXT
+  constants C_ADDRESS_TYPE_PRINT type SX_ADDRTYP value 'PRT'. "#EC NOTEXT
+  constants C_ADDRESS_TYPE_PAGER type SX_ADDRTYP value 'PAG'. "#EC NOTEXT
+  constants C_ADDRESS_TYPE_FAX type SX_ADDRTYP value 'FAX'. "#EC NOTEXT
+
+  methods SET_PERSNUMBER
+    importing
+      !I_PERSNUMBER type AD_PERSNUM
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  type-pools SO .
+  methods SET_CONSNUMBER
+    importing
+      !I_CONSNUMBER type SO_LFD_NR
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  methods SET_COMMTYPE
+    importing
+      !I_COMMTYPE type SO_COMTYPE
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  methods SET_ADDRNUMBER
+    importing
+      !I_ADDRNUMBER type AD_ADDRNUM
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  methods GET_ADDRESS_NAME
+    returning
+      value(RESULT) type STRING
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  methods GET_ADDRESS_STRING
+    returning
+      value(RESULT) type STRING
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  methods GET_ADDRESS_TYPE
+    returning
+      value(RESULT) type SX_ADDRTYP
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  methods SET_ADDRESS_NAME
+    importing
+      !I_ADDRESS_NAME type STRING
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  methods SET_ADDRESS_STRING
+    importing
+      !I_ADDRESS_STRING type STRING
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  methods SET_ADDRESS_TYPE
+    importing
+      !I_ADDRESS_TYPE type SX_ADDRTYP
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  class-methods CREATE_INTERNET_ADDRESS
+    importing
+      !I_ADDRESS_STRING type ADR6-SMTP_ADDR
+      value(I_ADDRESS_NAME) type ADR6-SMTP_ADDR optional
+      !I_INCL_SAPUSER type OS_BOOLEAN optional
+    returning
+      value(RESULT) type ref to CL_CAM_ADDRESS_BCS
+    raising
+      CX_ADDRESS_BCS .
+  class-methods CREATE_RML_ADDRESS
+    importing
+      !I_SYST type AD_SYMBDST
+      !I_CLIENT type AD_UMAND
+      !I_USERNAME type AD_UNAME
+    returning
+      value(RESULT) type ref to CL_CAM_ADDRESS_BCS
+    raising
+      CX_ADDRESS_BCS .
+  class-methods CREATE_FAX_ADDRESS
+    importing
+      !I_COUNTRY type AD_COMCTRY
+      !I_NUMBER type AD_FXNMBR
+    returning
+      value(RESULT) type ref to CL_CAM_ADDRESS_BCS
+    raising
+      CX_ADDRESS_BCS .
+  class-methods CREATE_SMS_ADDRESS
+    importing
+      value(I_SERVICE) type AD_PAGSERV optional
+      value(I_NUMBER) type AD_PAGNMBR
+    returning
+      value(RESULT) type ref to CL_CAM_ADDRESS_BCS
+    raising
+      CX_ADDRESS_BCS .
+  methods GET_ADDRNUMBER
+    returning
+      value(RESULT) type AD_ADDRNUM
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  methods GET_COMMTYPE
+    returning
+      value(RESULT) type SO_COMTYPE
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  methods GET_CONSNUMBER
+    returning
+      value(RESULT) type SO_LFD_NR
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  methods GET_PERSNUMBER
+    returning
+      value(RESULT) type AD_PERSNUM
+    raising
+      CX_OS_OBJECT_NOT_FOUND .
+  class-methods CREATE
+    importing
+      !I_ADDRNUMBER type AD_ADDRNUM
+      !I_COMMTYPE type SO_COMTYPE optional
+      !I_CONSNUMBER type SO_LFD_NR optional
+      !I_PERSNUMBER type AD_PERSNUM
+      !I_CAM_TYPE type AD_ADRTYPE optional
+    returning
+      value(RESULT) type ref to CL_CAM_ADDRESS_BCS
+    raising
+      CX_ADDRESS_BCS .
+  methods GETU_SO_KEY
+    returning
+      value(RESULT) type AD_SO_KEY
+    raising
+      CX_ADDRESS_BCS .
+  class-methods CREATE_USER_HOME_ADDRESS
+    importing
+      value(I_USER) type UNAME
+      value(I_COMMTYPE) type SO_COMTYPE optional
+    returning
+      value(RESULT) type ref to CL_CAM_ADDRESS_BCS
+    raising
+      CX_ADDRESS_BCS .
+  type-pools SZADR .
+  class CL_OS_SYSTEM definition load .
